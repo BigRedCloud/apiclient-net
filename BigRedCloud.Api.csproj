@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4C7AE0B2-413B-4E4C-B0FA-AD927AEFF04A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BigRedCloud.Api</RootNamespace>
+    <AssemblyName>BigRedCloud.Api</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ApiClientProvider.cs" />
+    <Compile Include="Clients\AnalysisCategoriesClient.cs" />
+    <Compile Include="Clients\BaseApiClient.cs" />
+    <Compile Include="Clients\BaseCrudApiClient.cs" />
+    <Compile Include="Clients\BaseOwnersClient.cs" />
+    <Compile Include="Clients\BaseQueryableApiClient.cs" />
+    <Compile Include="Clients\BaseStaticDictionaryApiClient.cs" />
+    <Compile Include="Clients\BookTranTypesClient.cs" />
+    <Compile Include="Clients\CategoryTypesClient.cs" />
+    <Compile Include="Clients\SuppliersClient.cs" />
+    <Compile Include="Clients\CustomersClient.cs" />
+    <Compile Include="Clients\GenericCrudApiClient.cs" />
+    <Compile Include="Clients\GenericQueryableApiClient.cs" />
+    <Compile Include="Clients\UserDefinedFieldsClient.cs" />
+    <Compile Include="Clients\VatCategoriesClient.cs" />
+    <Compile Include="Clients\VatRatesClient.cs" />
+    <Compile Include="Clients\VatTypesClient.cs" />
+    <Compile Include="Components\Utils.cs" />
+    <Compile Include="Configuration\ApiKeyElement.cs" />
+    <Compile Include="Configuration\ApiKeyElementCollection.cs" />
+    <Compile Include="Configuration\BigRedCloudApiSection.cs" />
+    <Compile Include="Exceptions\ApiRequestException.cs" />
+    <Compile Include="Model\AccountDto.cs" />
+    <Compile Include="Model\AccountTranDto.cs" />
+    <Compile Include="Model\AcEntryDto.cs" />
+    <Compile Include="Model\BaseApiDto.cs" />
+    <Compile Include="Model\UserDefinedFieldValueDto.cs" />
+    <Compile Include="Model\AnalysisCategoryDto.cs" />
+    <Compile Include="Model\BaseBookTranDto.cs" />
+    <Compile Include="Model\BaseCashDto.cs" />
+    <Compile Include="Model\BaseOwnerDto.cs" />
+    <Compile Include="Model\BaseSalesDto.cs" />
+    <Compile Include="Model\Batch\BatchItem.cs" />
+    <Compile Include="Model\Batch\BatchItemProcessResult.cs" />
+    <Compile Include="Model\Batch\BatchOperationCodes.cs" />
+    <Compile Include="Model\BookTranTypeDto.cs" />
+    <Compile Include="Model\CashReceiptDto.cs" />
+    <Compile Include="Model\CategoryTypeDto.cs" />
+    <Compile Include="Model\CustomerDto.cs" />
+    <Compile Include="Model\EFTBankDto.cs" />
+    <Compile Include="Model\NoteDto.cs" />
+    <Compile Include="Model\OwnerOpeningBalanceDto.cs" />
+    <Compile Include="Model\OwnerOpeningBalanceInPeriodsDto.cs" />
+    <Compile Include="Model\OwnerOpeningBalanceVatEntryDto.cs" />
+    <Compile Include="Model\ProductDto.cs" />
+    <Compile Include="Model\ProductTranDto.cs" />
+    <Compile Include="Model\Querying\ODataResult.cs" />
+    <Compile Include="Model\SalesEntryDto.cs" />
+    <Compile Include="Model\SalesInvoiceCreditNoteDto.cs" />
+    <Compile Include="Model\SalesDto.cs" />
+    <Compile Include="Model\SupplierDto.cs" />
+    <Compile Include="Model\UserDefinedFieldDto.cs" />
+    <Compile Include="Model\VatCategoryDto.cs" />
+    <Compile Include="Model\VatEntryDto.cs" />
+    <Compile Include="Model\VatRateDto.cs" />
+    <Compile Include="Model\VatTypeDto.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libs\Newtonsoft.Json.dll" />
+    <Content Include="Libs\Newtonsoft.Json.xml" />
+    <Content Include="Libs\System.Net.Http.Formatting.dll" />
+    <Content Include="Libs\System.Net.Http.Formatting.xml" />
+    <Content Include="LICENSE.txt" />
+    <Content Include="README.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
