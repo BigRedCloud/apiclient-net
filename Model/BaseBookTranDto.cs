@@ -7,6 +7,7 @@ namespace BigRedCloud.Api.Model
     {
         public long id { get; set; }
         public long bookTranTypeId { get; set; }
+        public string acCode { get; set; }
         public string note { get; set; }
         public DateTime entryDate { get; set; }
         public DateTime procDate { get; set; }

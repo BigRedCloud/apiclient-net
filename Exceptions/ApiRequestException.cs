@@ -5,7 +5,7 @@ namespace BigRedCloud.Api.Exceptions
 {
     public class ApiRequestException : Exception
     {
-        public HttpStatusCode StatusCoge { get; private set; }
+        public HttpStatusCode StatusCode { get; private set; }
         public string ReasonPhrase { get; private set; }
         public string Content { get; private set; }
 
@@ -14,7 +14,7 @@ namespace BigRedCloud.Api.Exceptions
         public ApiRequestException(HttpStatusCode statusCode, string reasonPhrase, string content) 
             : base(GetExceptionMessage(statusCode, reasonPhrase, content))
         {
-            StatusCoge = statusCode;
+            StatusCode = statusCode;
             ReasonPhrase = reasonPhrase;
             Content = content;
         }

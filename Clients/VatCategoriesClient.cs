@@ -2,6 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
+using BigRedCloud.Api.Extensions;
 
 namespace BigRedCloud.Api.Clients
 {
@@ -15,6 +18,19 @@ namespace BigRedCloud.Api.Clients
         internal VatCategoriesClient(string apiKey) : base(apiKey, EntitiesName)
         {
             _vatCategoriesByDescription = new Lazy<Dictionary<string, VatCategoryDto>>(GetAllGroupedByDescription);
+        }
+
+        public void ProcessVatRates(VatRatesByVatCategoryDto[] vatRates)
+        {
+            ProcessVatRatesAsync(vatRates).WaitAndUnwrapException();
+        }
+
+        public async Task ProcessVatRatesAsync(VatRatesByVatCategoryDto[] vatRates)
+        {
+            using (HttpResponseMessage response = await ProcessVatRatesRawAsync(vatRates).ConfigureAwait(false))
+            {
+                await EnsureSuccessAsync(response).ConfigureAwait(false);
+            }
         }
 
 
@@ -42,12 +58,20 @@ namespace BigRedCloud.Api.Clients
 
         private VatCategoryDto GetByDescription(string description)
         {
-            return _vatCategoriesByDescription.Value[description];
+            Dictionary<string, VatCategoryDto> vatCategoriesByDescription = _vatCategoriesByDescription.Value;
+            return vatCategoriesByDescription[description];
         }
 
         private Dictionary<string, VatCategoryDto> GetAllGroupedByDescription()
         {
-            return GetAll().ToDictionary(vatCategory => vatCategory.description);
+            VatCategoryDto[] vatCategories = GetAllAsync().ResultAndUnwrapException();
+            return vatCategories.ToDictionary(vatCategory => vatCategory.description);
+        }
+
+        private async Task<HttpResponseMessage> ProcessVatRatesRawAsync(VatRatesByVatCategoryDto[] vatRates)
+        {
+            string requestUri = String.Format("{0}/vatRates", EntitiesName);
+            return await SendToApiRawAsync(HttpMethod.Post, requestUri, vatRates).ConfigureAwait(false);
         }
 
         #endregion Private methods

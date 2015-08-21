@@ -14,11 +14,14 @@ namespace BigRedCloud.Api
 
         private const string AccountsName = "Accounts";
         private const string AnalysisCategoriesName = "AnalysisCategories";
+        private const string BankAccountsName = "BankAccounts";
         private const string BookTranTypesName = "BookTranTypes";
         private const string CategoryTypesName = "CategoryTypes";
         private const string CashReceiptsName = "CashReceipts";
         private const string CustomersName = "Customers";
+        private const string PaymentsName = "Payments";
         private const string ProductsName = "Products";
+        private const string PurchasesName = "Purchases";
         private const string SalesName = "Sales";
         private const string SalesCreditNotesName = "SalesCreditNotes";
         private const string SalesEntriesName = "SalesEntries";
@@ -34,7 +37,7 @@ namespace BigRedCloud.Api
         // Thread-safe lazy initialization.
         private static Dictionary<string, Lazy<ApiClientProvider>> _apiClientProviders;
         private static string _defaultApiKeyName;
-        
+
         private readonly Dictionary<string, object> _apiClients;
 
         static ApiClientProvider()
@@ -73,6 +76,11 @@ namespace BigRedCloud.Api
             return lazyProvider.Value;
         }
 
+        public static ApiClientProvider New(string apiKey)
+        {
+            return new ApiClientProvider(apiKey);
+        }
+
         #endregion Public static methods
 
 
@@ -86,6 +94,11 @@ namespace BigRedCloud.Api
         public AnalysisCategoriesClient AnalysisCategories
         {
             get { return GetSpecificClient<AnalysisCategoriesClient>(AnalysisCategoriesName); }
+        }
+
+        public GenericCrudApiClient<BankAccountDto> BankAccounts
+        {
+            get { return GetSpecificClient<GenericCrudApiClient<BankAccountDto>>(BankAccountsName); }
         }
 
         public BookTranTypesClient BookTranTypes
@@ -108,9 +121,19 @@ namespace BigRedCloud.Api
             get { return GetSpecificClient<CustomersClient>(CustomersName); }
         }
 
+        public GenericCrudApiClient<PaymentDto> Payments
+        {
+            get { return GetSpecificClient<GenericCrudApiClient<PaymentDto>>(PaymentsName); }
+        }
+
         public GenericCrudApiClient<ProductDto> Products
         {
             get { return GetSpecificClient<GenericCrudApiClient<ProductDto>>(ProductsName); }
+        }
+
+        public GenericCrudApiClient<PurchaseDto> Purchases
+        {
+            get { return GetSpecificClient<GenericCrudApiClient<PurchaseDto>>(PurchasesName); }
         }
 
         public GenericQueryableApiClient<SalesDto> Sales
@@ -181,7 +204,7 @@ namespace BigRedCloud.Api
         private static void InitializeApiClientProviders()
         {
             BigRedCloudApiSection apiConfigSection = (BigRedCloudApiSection)ConfigurationManager.GetSection("bigRedCloudApiSection");
-            ApiKeyElementCollection apiKeysConfig = apiConfigSection.ApiKeys;
+            ApiKeyElementCollection apiKeysConfig = apiConfigSection != null ? apiConfigSection.ApiKeys : new ApiKeyElementCollection();
 
             ApiKeyElement defaultApiKeyConfig = apiKeysConfig.Cast<ApiKeyElement>().FirstOrDefault(apiKeyConfig => apiKeyConfig.IsDefault);
             _defaultApiKeyName = defaultApiKeyConfig != null ? defaultApiKeyConfig.Name : null;
@@ -200,11 +223,14 @@ namespace BigRedCloud.Api
             {
                 { AccountsName, CreateQueryableClient<AccountDto>(apiKey, AccountsName) },
                 { AnalysisCategoriesName, new AnalysisCategoriesClient(apiKey) },
+                { BankAccountsName, CreateCrudClient<BankAccountDto>(apiKey, BankAccountsName) },
                 { BookTranTypesName, new BookTranTypesClient(apiKey) },
                 { CashReceiptsName, CreateCrudClient<CashReceiptDto>(apiKey, CashReceiptsName) },
                 { CategoryTypesName, new CategoryTypesClient(apiKey) },
                 { CustomersName, new CustomersClient(apiKey) },
+                { PaymentsName, CreateCrudClient<PaymentDto>(apiKey, PaymentsName) },
                 { ProductsName, CreateCrudClient<ProductDto>(apiKey, ProductsName) },
+                { PurchasesName, CreateCrudClient<PurchaseDto>(apiKey, PurchasesName) },
                 { SalesName, CreateQueryableClient<SalesDto>(apiKey, SalesName) },
                 { SalesCreditNotesName, CreateCrudClient<SalesInvoiceCreditNoteDto>(apiKey, SalesCreditNotesName) },
                 { SalesEntriesName, CreateCrudClient<SalesEntryDto>(apiKey, SalesEntriesName) },

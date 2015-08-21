@@ -2,7 +2,6 @@
 {
     public abstract class BaseSalesDto : BaseBookTranDto
     {
-        public string acCode { get; set; }
         public string reference { get; set; }
         public string details { get; set; }
         public decimal unpaid { get; set; }

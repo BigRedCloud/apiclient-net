@@ -5,6 +5,8 @@ namespace BigRedCloud.Api.Model
     public class AccountTranDto : BaseApiDto
     {
         public long id { get; set; }
+        public long bookTranId { get; set; }
+        public long bookTranTypeId { get; set; }
         public string bookTransactionReference { get; set; }
         public string bookTypeDesc { get; set; }
         public decimal credit { get; set; }

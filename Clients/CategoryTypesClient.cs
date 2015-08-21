@@ -1,8 +1,9 @@
 ﻿using System;
 using BigRedCloud.Api.Model;
-using BigRedCloud.Api.Model.Querying;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using BigRedCloud.Api.Extensions;
 
 namespace BigRedCloud.Api.Clients
 {
@@ -16,11 +17,11 @@ namespace BigRedCloud.Api.Clients
         private const string PurchasesDescription = "Purchases";
 
         // Thread-safe lazy initialization.
-        private readonly Lazy<Dictionary<string, CategoryTypeDto>> _staticCategoryTypes;
+        private readonly Lazy<Dictionary<string, CategoryTypeDto>> _staticCategoryTypesByDescription;
 
         internal CategoryTypesClient(string apiKey) : base(apiKey, EntitiesName)
         {
-            _staticCategoryTypes = new Lazy<Dictionary<string, CategoryTypeDto>>(GetStaticGroupedByDescription);
+            _staticCategoryTypesByDescription = new Lazy<Dictionary<string, CategoryTypeDto>>(GetStaticGroupedByDescription);
         }
 
 
@@ -53,15 +54,17 @@ namespace BigRedCloud.Api.Clients
 
         private CategoryTypeDto GetStaticByDescription(string description)
         {
-            return _staticCategoryTypes.Value[description];
+            Dictionary<string, CategoryTypeDto> staticCategoryTypesByDescription = _staticCategoryTypesByDescription.Value;
+            return staticCategoryTypesByDescription[description];
         }
 
         private Dictionary<string, CategoryTypeDto> GetStaticGroupedByDescription()
         {
-            return GetStaticCategoryTypes().ToDictionary(categoryType => categoryType.description);
+            IEnumerable<CategoryTypeDto> staticCategoryTypes = GetStaticCategoryTypesAsync().ResultAndUnwrapException();
+            return staticCategoryTypes.ToDictionary(categoryType => categoryType.description);
         }
 
-        private IEnumerable<CategoryTypeDto> GetStaticCategoryTypes()
+        private async Task<IEnumerable<CategoryTypeDto>> GetStaticCategoryTypesAsync()
         {
             string[] descriptionsOfStaticCategoryTypes = new string[]
             {
@@ -70,8 +73,8 @@ namespace BigRedCloud.Api.Clients
                 SalesDescription, 
                 PurchasesDescription
             };
-            ODataResult<CategoryTypeDto> categoryTypes = GetPageByApi<CategoryTypeDto>("$orderby=id");
-            return categoryTypes.Items.Where(categoryType => descriptionsOfStaticCategoryTypes.Contains(categoryType.description));
+            CategoryTypeDto[] categoryTypes = await GetAllAsync("$orderby=id").ConfigureAwait(false);
+            return categoryTypes.Where(categoryType => descriptionsOfStaticCategoryTypes.Contains(categoryType.description));
         }
 
         #endregion Private methods

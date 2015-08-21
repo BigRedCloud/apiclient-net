@@ -2,11 +2,14 @@
 
 namespace BigRedCloud.Api.Model
 {
-    public class CashReceiptDto : BaseCashDto
+    public class PurchaseDto : BaseBookTranDto
     {
-        public decimal discount { get; set; }
+        public string reference { get; set; }
+        public long supplierId { get; set; }
+        public decimal totalNet { get; set; }
+        public decimal totalVAT { get; set; }
+        public long vatTypeId { get; set; }
         public decimal unallocated { get; set; }
-        public long? customerId { get; set; }
         public IEnumerable<string> detailCollection { get; set; }
         public IEnumerable<AcEntryDto> acEntries { get; set; }
         public IEnumerable<VatEntryDto> vatEntries { get; set; }

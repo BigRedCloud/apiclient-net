@@ -14,7 +14,7 @@ namespace BigRedCloud.Api.Model
         public decimal unitPrice { get; set; }
         public decimal vat { get; set; }
         public long vatRateId { get; set; }
+        public IEnumerable<string> tranNotes { get; set; }
         public IEnumerable<AcEntryDto> acEntries { get; set; }
-        public IEnumerable<NoteDto> tranNotes { get; set; }
     }
 }

@@ -72,10 +72,14 @@
     <Compile Include="Configuration\ApiKeyElementCollection.cs" />
     <Compile Include="Configuration\BigRedCloudApiSection.cs" />
     <Compile Include="Exceptions\ApiRequestException.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Model\AccountDto.cs" />
     <Compile Include="Model\AccountTranDto.cs" />
     <Compile Include="Model\AcEntryDto.cs" />
+    <Compile Include="Model\BankAccountDto.cs" />
     <Compile Include="Model\BaseApiDto.cs" />
+    <Compile Include="Model\PaymentDto.cs" />
+    <Compile Include="Model\PurchaseDto.cs" />
     <Compile Include="Model\UserDefinedFieldValueDto.cs" />
     <Compile Include="Model\AnalysisCategoryDto.cs" />
     <Compile Include="Model\BaseBookTranDto.cs" />
@@ -90,7 +94,6 @@
     <Compile Include="Model\CategoryTypeDto.cs" />
     <Compile Include="Model\CustomerDto.cs" />
     <Compile Include="Model\EFTBankDto.cs" />
-    <Compile Include="Model\NoteDto.cs" />
     <Compile Include="Model\OwnerOpeningBalanceDto.cs" />
     <Compile Include="Model\OwnerOpeningBalanceInPeriodsDto.cs" />
     <Compile Include="Model\OwnerOpeningBalanceVatEntryDto.cs" />
@@ -105,6 +108,7 @@
     <Compile Include="Model\VatCategoryDto.cs" />
     <Compile Include="Model\VatEntryDto.cs" />
     <Compile Include="Model\VatRateDto.cs" />
+    <Compile Include="Model\VatRatesByVatCategoryDto.cs" />
     <Compile Include="Model\VatTypeDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

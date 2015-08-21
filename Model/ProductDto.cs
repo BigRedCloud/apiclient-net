@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BigRedCloud.Api.Model
+﻿namespace BigRedCloud.Api.Model
 {
     public class ProductDto : BaseApiDto
     {
@@ -10,7 +8,7 @@ namespace BigRedCloud.Api.Model
         public bool grossUnitPrice { get; set; }
         public bool hasDefaultVatRate { get; set; }
         public long? vatRateId { get; set; }
+        public string[] details { get; set; }
         public byte[] timestamp { get; set; }
-        public IEnumerable<NoteDto> details { get; set; }
     }
 }

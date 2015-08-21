@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace BigRedCloud.Api.Model
+﻿namespace BigRedCloud.Api.Model
 {
     public abstract class BaseOwnerDto : BaseApiDto
     {
@@ -19,7 +17,7 @@ namespace BigRedCloud.Api.Model
         public string phone { get; set; }
         public string vatReg { get; set; }
         public byte[] timestamp { get; set; }
-        public IEnumerable<NoteDto> address { get; set; }
+        public string[] address { get; set; }
         public EFTBankDto bank { get; set; }
         
         public decimal? ledgerBalance { get; set; }

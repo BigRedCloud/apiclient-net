@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using BigRedCloud.Api.Extensions;
 
 namespace BigRedCloud.Api.Clients
 {
@@ -10,21 +12,29 @@ namespace BigRedCloud.Api.Clients
         private const string EntitiesName = "BookTranTypes";
 
         // Thread-safe lazy initialization.
-        private readonly Lazy<Dictionary<string, BookTranTypeDto>> _bookTranTypesByDescription;
+        private readonly Lazy<Task<Dictionary<string, BookTranTypeDto>>> _bookTranTypesByDescription;
 
         internal BookTranTypesClient(string apiKey) : base(apiKey, EntitiesName)
         {
-            _bookTranTypesByDescription = new Lazy<Dictionary<string, BookTranTypeDto>>(GetAllGroupedByDescription);
+            _bookTranTypesByDescription = new Lazy<Task<Dictionary<string, BookTranTypeDto>>>(GetAllGroupedByDescriptionAsync);
         }
 
         public BookTranTypeDto GetByDescription(string description)
         {
-            return _bookTranTypesByDescription.Value[description];
+            BookTranTypeDto result = GetByDescriptionAsync(description).ResultAndUnwrapException();
+            return result;
         }
 
-        private Dictionary<string, BookTranTypeDto> GetAllGroupedByDescription()
+        public async Task<BookTranTypeDto> GetByDescriptionAsync(string description)
         {
-            return GetAll().ToDictionary(bookTranType => bookTranType.description);
+            Dictionary<string, BookTranTypeDto> bookTranTypesByDescription = await _bookTranTypesByDescription.Value.ConfigureAwait(false);
+            return bookTranTypesByDescription[description];
+        }
+
+        private async Task<Dictionary<string, BookTranTypeDto>> GetAllGroupedByDescriptionAsync()
+        {
+            BookTranTypeDto[] bookTranTypes = await GetAllAsync().ConfigureAwait(false);
+            return bookTranTypes.ToDictionary(bookTranType => bookTranType.description);
         }
     }
 }

@@ -8,5 +8,6 @@
         public bool isActive { get; set; }
         public bool isDefault { get; set; }
         public long vatCategoryId { get; set; }
+        public byte[] timestamp { get; set; }
     }
 }

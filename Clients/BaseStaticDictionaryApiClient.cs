@@ -1,37 +1,35 @@
-﻿using BigRedCloud.Api.Model.Querying;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Threading.Tasks;
+using BigRedCloud.Api.Extensions;
+using BigRedCloud.Api.Model;
 
 namespace BigRedCloud.Api.Clients
 {
-    public abstract class BaseStaticDictionaryApiClient<TApiDto> : BaseApiClient
+    public abstract class BaseStaticDictionaryApiClient<TApiDto> : BaseQueryableApiClient<TApiDto>
+        where TApiDto : BaseApiDto
     {
         // Thread-safe lazy initialization.
-        private readonly Lazy<TApiDto[]> _items;
+        private readonly Lazy<Task<TApiDto[]>> _items;
 
         protected BaseStaticDictionaryApiClient(string apiKey, string entitiesName) : base(apiKey, entitiesName)
         {
-            _items = new Lazy<TApiDto[]>(GetAllInternal);
+            _items = new Lazy<Task<TApiDto[]>>(GetAllInternalAsync);
         }
 
-        public virtual TApiDto[] GetAll()
+        public override TApiDto[] GetAll(string odataParameters = null)
         {
-            return _items.Value;
+            var result = GetAllAsync(odataParameters).ResultAndUnwrapException();
+            return result;
         }
 
-        private TApiDto[] GetAllInternal()
+        public async override Task<TApiDto[]> GetAllAsync(string odataParameters = null)
         {
-            ODataResult<TApiDto> pageResult = GetPageByApi<TApiDto>();
-            List<TApiDto> result = new List<TApiDto>(pageResult.Items);
+            return await _items.Value.ConfigureAwait(false);
+        }
 
-            while (pageResult.NextPageLink != null)
-            {
-                string requestParams = new Uri(pageResult.NextPageLink).Query.TrimStart('?');
-                pageResult = GetPageByApi<TApiDto>(requestParams);
-                result.AddRange(pageResult.Items);
-            }
-
-            return result.ToArray();
+        private async Task<TApiDto[]> GetAllInternalAsync()
+        {
+            return await GetAllInternalAsync(null).ConfigureAwait(false);
         }
     }
 }

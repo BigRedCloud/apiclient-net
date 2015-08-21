@@ -2,6 +2,7 @@
 using BigRedCloud.Api.Model;
 using System.Collections.Generic;
 using System.Linq;
+using BigRedCloud.Api.Extensions;
 
 namespace BigRedCloud.Api.Clients
 {
@@ -57,12 +58,14 @@ namespace BigRedCloud.Api.Clients
 
         private VatTypeDto GetByDescription(string description)
         {
-            return _vatTypesByDescription.Value[description];
+            Dictionary<string, VatTypeDto> vatTypesByDescription = _vatTypesByDescription.Value;
+            return vatTypesByDescription[description];
         }
 
         private Dictionary<string, VatTypeDto> GetAllGroupedByDescription()
         {
-            return GetAll().ToDictionary(vatType => vatType.description);
+            VatTypeDto[] vatTypes = GetAllAsync().ResultAndUnwrapException();
+            return vatTypes.ToDictionary(vatType => vatType.description);
         }
 
         #endregion Private methods
