@@ -47,8 +47,8 @@ greater.
 -------------------------------- Library using --------------------------------
 
 This library depends on the next third party components:
-System.Net.Http.Formatting.dll version="5.0.0"
-Newtonsoft.Json.dll version="5.0.8"
+System.Net.Http.Formatting.dll version="5.2.3.0"
+Newtonsoft.Json.dll version="6.0.0.0"
 
 All third party components are placed in folder "Libs" in root of the project. 
 When you add reference to Big Red Cloud API .NET Client library in your 
